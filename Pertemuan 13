@@ -1,0 +1,28 @@
+import numpy as np
+def cos(frek,tipe,ht,hr,d):
+  #frek = frekuensi (MHz)
+  #tipe = urban, suburban, open
+  #ht = tinggi tower (meter)
+  #hr = tinggi user (meter)
+  #d = jarak (meter)
+    if frek in range(150,1501):
+        Ca=69.55
+        Cb=26.16
+    elif frek in range(1501,2001):
+        Ca=46.3
+        Cb=33.9
+    
+    if tipe=='urban' :
+        Cm=0
+    elif tipe=='suburban' :
+        Cm= -2*((np.log10((frek/28)**2))-5.4)
+    elif tipe=='open' :
+        Cm= -4.78*(np.log10(frek))+18.33*(np.log10(frek))-40.94
+    else :
+        Cm='tipe salah'
+    
+    ahr = (1.1*np.log10(frek)-0.7)*hr-(1.56*np.log10(frek)-1.8)
+    Lp = Ca+(Cb*np.log10(frek))-(13.83*np.log(ht))-ahr+((44.9-6.55*np.log10(ht))*np.log10(d))-Cm
+    
+    return Lp
+    
